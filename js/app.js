@@ -184,9 +184,11 @@ subMenuEl.style.top = '0';
 
 // Declare a global showingSubMenu variable and initialize it to false;
 
+let showingSubMenu = false;
+
 const topMenuLinks = document.querySelectorAll("#top-menu a");
 
-let showingSubMenu = false;
+
 
 // Task 5.2
 // Attach a delegated 'click' event listener to topMenuEl.
@@ -195,12 +197,24 @@ let showingSubMenu = false;
 
 // The second line of code function should immediately return if the element clicked was not an <a> element.
 
-topMenuEl.addEventListener("click", function (evt) {
-  evt.preventDefault();
-  cons link = evt.target;
-  if (link.tagName !== "A") return;
+topMenuEl.addEventListener("click", function (e) {
+  e.preventDefault();
+  const link = e.target;
+  if (link.tagName !== "A") {
+    return
+  }
   console.log(link.textContent);
 })
+
+// Task 5.3
+
+if (link.classList.contains("active")) {
+  link.classList.remove("active");
+  showingSubMenu = false;
+  subMenuEl.style.top = "0";
+  return;
+}
+
 
 // Task 5.4
 // At this point, a new menu item has been clicked and it's time to "reset" any currently active menu item...
@@ -221,10 +235,10 @@ link.classList.add("active");
 // Task 5.6
 // Next, add code in the event listener that sets showingSubMenu to true if the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), otherwise, set it to false.
 
-const linkData = menuLinks.find(function (linkObj) {
-  return linkObj.text === link.textContent;
-});
-showingSubMenu = "subLinks" in linkData;
+const linkState = menuLinks.find(function (subLinkObj) {
+  return subLinkObj.text === link.textContent;
+})
+showingSubMenu = "subLinks" in linkState;
 
 
 // Task 5.7
